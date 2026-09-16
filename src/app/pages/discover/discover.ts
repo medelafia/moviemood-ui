@@ -43,7 +43,7 @@ export class Discover implements OnInit {
   // Services
   private readonly contentService = inject(ContentService);
   private readonly router = inject(Router);
-  private isLoadingMore : boolean = false
+  isLoadingMore : boolean = false
 
   // State
   protected searchKey: string = '';
