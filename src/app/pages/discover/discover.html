@@ -176,6 +176,7 @@
             icon="pi pi-sync"
             (click)="incrementSize()"
             class="load-more-btn"
+            [disabled]="isLoadingMore"
           ></button>
         </div>
       }

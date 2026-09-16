@@ -43,6 +43,7 @@ export class Discover implements OnInit {
   // Services
   private readonly contentService = inject(ContentService);
   private readonly router = inject(Router);
+  private isLoadingMore : boolean = false
 
   // State
   protected searchKey: string = '';
@@ -93,6 +94,7 @@ export class Discover implements OnInit {
           this.contents = response.content;
         } else if (type === 'APPEND') {
           this.contents.push(...response.content);
+          this.isLoadingMore = false;
         }
       },
     });
@@ -149,6 +151,7 @@ export class Discover implements OnInit {
 
   // Pagination
   incrementSize(): void {
+    this.isLoadingMore = true ; 
     this.page += 1;
     this.fetchContent('APPEND');
   }
