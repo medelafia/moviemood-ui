@@ -1,0 +1,158 @@
+/* ============================================
+   NAVBAR
+   ============================================ */
+
+.navbar-custom {
+  background:
+    radial-gradient(circle at top right, rgba(255, 140, 0, 0.15), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(255, 140, 0, 0.08), transparent 30%),
+    #0f172a;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.85rem 0;
+  transition: background 0.3s ease;
+}
+
+/* ---------- Brand ---------- */
+.brand-icon {
+  font-size: 1.4rem;
+  color: #ff9800;
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.25s ease;
+}
+
+.brand-text {
+  background: linear-gradient(135deg, #ffb366, #ff9800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar-brand:hover .brand-icon {
+  transform: rotate(-12deg) scale(1.1);
+}
+
+/* ---------- Nav Links ---------- */
+.navbar-custom .nav-link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.9rem !important;
+  border-radius: 10px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.navbar-custom .nav-link i {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Underline grow effect */
+.navbar-custom .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff9800, #ffb366);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+/* Hover state */
+.navbar-custom .nav-link:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.navbar-custom .nav-link:hover i {
+  color: #ff9800;
+  transform: translateY(-1px);
+}
+
+.navbar-custom .nav-link:hover::after {
+  width: 40%;
+}
+
+/* Active state */
+.navbar-custom .nav-link.active {
+  color: #ffffff !important;
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.navbar-custom .nav-link.active i {
+  color: #ff9800;
+}
+
+.navbar-custom .nav-link.active::after {
+  width: 60%;
+}
+
+/* ---------- Auth Button ---------- */
+.auth-btn {
+  border-radius: 999px !important;
+  padding: 0.5rem 1.25rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 6px 16px -6px rgba(255, 152, 0, 0.55);
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -8px rgba(255, 152, 0, 0.7);
+}
+
+/* ---------- Mobile toggler ---------- */
+.navbar-custom .navbar-toggler {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.navbar-custom .navbar-toggler:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.25);
+}
+
+/* ---------- Mobile collapse ---------- */
+@media (max-width: 991.98px) {
+  .navbar-custom .navbar-collapse {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+  }
+
+  .navbar-custom .nav-item {
+    width: 100%;
+  }
+
+  .navbar-custom .nav-link {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .navbar-custom .nav-link::after {
+    display: none;
+  }
+
+  .auth-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

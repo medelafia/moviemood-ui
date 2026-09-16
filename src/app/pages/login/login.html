@@ -1,0 +1,101 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light py-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                
+                <!-- Error Message -->
+                @if(error) {
+                    <div class="mb-3">
+                        <p-message severity="error" closable styleClass="w-100">{{error}}</p-message>
+                    </div>
+                }
+
+                <!-- Login Card -->
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="row g-0">
+                        
+                        <!-- Left Side: Form -->
+                        <div class="col-md-7 p-4 p-sm-5 bg-white">
+                            <h2 class="fw-bold mb-2 text-dark">Welcome Back</h2>
+                            <p class="text-muted mb-4">Please enter your details to sign in.</p>
+
+                            <form [formGroup]="loginFormGroup" (ngSubmit)="submitLogin()">
+                                
+                                <!-- Username Field -->
+                                <div class="mb-4">
+                                    <label for="username" class="form-label fw-semibold">Username</label>
+                                    <div class="position-relative">
+                                        <i class="pi pi-user position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                        <input 
+                                            pInputText 
+                                            id="username" 
+                                            formControlName="username" 
+                                            placeholder="Enter your username"
+                                            class="w-100 ps-5"
+                                        />
+                                    </div>
+                                    @if( ( getFormControl("username")?.dirty || getFormControl("username")?.touched ) && !getFormControl("username")?.valid){ 
+                                        <small class="text-danger mt-1 d-block">Username is required.</small>
+                                    }
+                                </div>
+
+                                <!-- Password Field -->
+                                <div class="mb-4">
+                                    <label for="password" class="form-label fw-semibold">Password</label>
+                                    <div class="position-relative">
+                                        <i class="pi pi-lock position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                        <input 
+                                            type="password" 
+                                            pInputText 
+                                            id="password" 
+                                            formControlName="password" 
+                                            placeholder="Enter your password"
+                                            class="w-100 ps-5"
+                                        />
+                                    </div>
+                                    @if( ( getFormControl("password")?.dirty || getFormControl("password")?.touched ) && !getFormControl("password")?.valid){ 
+                                        <small class="text-danger mt-1 d-block">Password is required.</small>
+                                    }
+                                </div>
+
+                                <!-- Remember Me & Register Link -->
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <input type="checkbox" id="remember-me" class="form-check-input mt-0"/>
+                                        <label for="remember-me" class="ms-2 text-muted small cursor-pointer">Remember me</label>
+                                    </div>    
+                                    <a [routerLink]="['/register']" class="text-decoration-none small fw-semibold text-warning">
+                                        Don't have an account?
+                                    </a>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <button 
+                                    pButton 
+                                    type="submit" 
+                                    class="w-100 p-button-lg custom-login-btn shadow-sm" 
+                                    [icon]="isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'" 
+                                    iconPos="right" 
+                                    label="Login"
+                                    [disabled]="isLoading"
+                                ></button>
+                            </form>
+                        </div>
+
+                        <!-- Right Side: Branding Panel -->
+                        <div class="col-md-5 d-none d-md-flex align-items-center justify-content-center p-5 text-white login-bg-panel">
+                            <div class="text-center">
+                                <i class="pi pi-video" style="font-size: 4rem; color: #f97316;"></i>
+                                <h3 class="fw-bold mt-4">MovieMood</h3>
+                                <p class="mt-2 mb-0 small text-light opacity-75">
+                                    Unlock personalized recommendations and track your cinematic journey.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

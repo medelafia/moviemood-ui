@@ -1,0 +1,431 @@
+<!-- ==================== HERO SECTION ==================== -->
+<div class="hero-section position-relative overflow-hidden">
+  <!-- Animated Background Glows -->
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-glow hero-glow-accent"></div>
+
+  <!-- Subtle Grid Background -->
+  <div class="hero-grid"></div>
+
+  <!-- Floating Decorative Dots -->
+  <div class="hero-dots">
+    <span class="dot dot-1"></span>
+    <span class="dot dot-2"></span>
+    <span class="dot dot-3"></span>
+    <span class="dot dot-4"></span>
+    <span class="dot dot-5"></span>
+  </div>
+
+  <div class="container position-relative z-1">
+    <div class="row align-items-center min-vh-100 py-5">
+      <!-- Left Visual -->
+      <div class="col-lg-6 d-flex align-items-center justify-content-center mb-5 mb-lg-0">
+        <div class="hero-image-wrapper">
+          <div class="floating-poster poster-1">
+            <i class="pi pi-video"></i>
+          </div>
+          <div class="floating-poster poster-2">
+            <i class="pi pi-star-fill"></i>
+          </div>
+          <div class="floating-poster poster-3">
+            <i class="pi pi-play"></i>
+          </div>
+
+          <div class="image-halo"></div>
+          <img
+            src="assets/images/hero-removebg-preview.png"
+            class="img-fluid hero-image"
+            alt="Movie Discovery Illustration"
+          >
+        </div>
+      </div>
+
+      <!-- Right Content -->
+      <div class="col-lg-6 text-center text-lg-start">
+        <div class="hero-badge mb-4">
+          <span class="badge-dot"></span>
+          <i class="pi pi-sparkles badge-icon"></i>
+          <span>Personalized For You</span>
+        </div>
+
+        <div class="hero-headline">
+          <h1 class="hero-title">
+            Discover Movies <br>
+            <span class="title-accent">You'll Love</span>
+          </h1>
+          <p class="hero-subtitle">
+            Smart recommendations for
+            <span class="rotating-text">
+              <span class="rotating-item">Movies</span>
+              <span class="rotating-item">Series</span>
+              <span class="rotating-item">Thrillers</span>
+              <span class="rotating-item">Hidden Gems</span>
+            </span>
+          </p>
+        </div>
+
+        <p class="hero-description">
+          Get personalized movie suggestions based on your ratings,
+          viewing history, and favorite genres.
+        </p>
+
+        <div class="search-container mt-6">
+          <div class="search-box-modern">
+            <i class="pi pi-search search-icon"></i>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search movies, genres, actors..."
+              aria-label="Search movies"
+              [(ngModel)]="heroSearchKey"
+              (keyup.enter)="heroSearch()"
+            >
+            <span class="search-kbd">⌘K</span>
+            <button
+              pButton
+              class="search-btn"
+              aria-label="Search"
+              (click)="heroSearch()"
+            >
+              <i class="pi pi-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="search-hints">
+            <span class="hint-label">Popular:</span>
+            <button class="hint-chip" (click)="heroSearchKey = 'Sci-Fi'; heroSearch()">Sci-Fi</button>
+            <button class="hint-chip" (click)="heroSearchKey = 'Drama'; heroSearch()">Drama</button>
+            <button class="hint-chip" (click)="heroSearchKey = 'Thriller'; heroSearch()">Thriller</button>
+            <button class="hint-chip" (click)="heroSearchKey = 'Comedy'; heroSearch()">Comedy</button>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3 mt-6 justify-content-center justify-content-lg-start">
+          <button
+            pButton
+            icon="pi pi-sparkles"
+            [routerLink]="['/recommendation']"
+            class="hero-btn hero-btn-primary"
+          >
+            Get Started
+          </button>
+
+          <button
+            pButton
+            icon="pi pi-play"
+            [routerLink]="['/discover']"
+            [outlined]="true"
+            class="hero-btn hero-btn-outline"
+          >
+            Explore Now
+          </button>
+        </div>
+
+        <div class="hero-proof mt-6">
+          <div class="avatar-stack">
+            <span class="avatar">A</span>
+            <span class="avatar">M</span>
+            <span class="avatar">S</span>
+            <span class="avatar">K</span>
+            <span class="avatar avatar-more">+</span>
+          </div>
+          <span class="proof-text">
+            Loved by <strong>12,000+</strong> movie fans
+          </span>
+        </div>
+
+        <div class="hero-stats mt-5">
+          <div class="stat-item">
+            <i class="pi pi-video stat-icon"></i>
+            <div class="stat-content">
+              <span class="stat-number" data-target="10000">0</span>
+              <span class="stat-label">Movies</span>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <i class="pi pi-thumbs-up stat-icon"></i>
+            <div class="stat-content">
+              <span class="stat-number" data-target="98">0</span>
+              <span class="stat-label">Satisfaction</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span class="scroll-text">Scroll to explore</span>
+    <i class="pi pi-chevron-down"></i>
+  </div>
+</div>
+
+
+<!-- ==================== POST-HERO DARK SECTIONS ==================== -->
+<div class="post-hero-sections">
+
+  <!-- ==================== TRENDING NOW ==================== -->
+  <section class="section-trending">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">
+            <i class="pi pi-bolt"></i> Trending now
+          </span>
+          <h2 class="section-title">What everyone's watching</h2>
+        </div>
+        <a [routerLink]="['/discover']" class="section-link">
+          View all <i class="pi pi-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="trending-scroll">
+        @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="trending-card">
+            <div class="trending-poster">
+              <img
+                src="assets/images/image.png"
+                alt="Trending title"
+                (error)="$event.target.src='assets/images/image.png'"
+              >
+              <div class="trending-rank">#{{ i }}</div>
+              <div class="trending-overlay">
+                <i class="pi pi-play-circle"></i>
+              </div>
+            </div>
+            <div class="trending-info">
+              <h6>Sample Title {{ i }}</h6>
+              <span class="trending-meta">Action · 2024 · ★ 8.{{ i }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== BROWSE BY GENRE ==================== -->
+  <section class="section-genres">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="section-eyebrow">
+            <i class="pi pi-th-large"></i> Explore
+          </span>
+          <h2 class="section-title">Browse by genre</h2>
+        </div>
+      </div>
+
+      <div class="genre-grid">
+        @for (genre of [
+          { name: 'Action',      icon: 'pi-bolt',                count: '2,340' },
+          { name: 'Drama',       icon: 'pi-heart',               count: '1,890' },
+          { name: 'Sci-Fi',      icon: 'pi-globe',               count: '1,120' },
+          { name: 'Thriller',    icon: 'pi-shield',              count: '980'   },
+          { name: 'Comedy',      icon: 'pi-face-smile',          count: '1,450' },
+          { name: 'Horror',      icon: 'pi-exclamation-triangle',count: '760'   },
+          { name: 'Romance',     icon: 'pi-heart-fill',          count: '1,030' },
+          { name: 'Documentary', icon: 'pi-book',                count: '640'   }
+        ]; track genre.name) {
+          <a [routerLink]="['/discover']" class="genre-card">
+            <i class="pi {{ genre.icon }} genre-icon"></i>
+            <div>
+              <span class="genre-name">{{ genre.name }}</span>
+              <span class="genre-count">{{ genre.count }} titles</span>
+            </div>
+            <i class="pi pi-arrow-up-right genre-arrow"></i>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== HOW IT WORKS ==================== -->
+  <section class="section-how">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-eyebrow">
+          <i class="pi pi-cog"></i> How it works
+        </span>
+        <h2 class="section-title">Your taste, decoded in three steps</h2>
+        <p class="section-sub">
+          MovieMood learns from everything you do, then serves you exactly what you'll love next.
+        </p>
+      </div>
+
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-step">01</div>
+          <div class="how-icon-wrap">
+            <i class="pi pi-user-plus"></i>
+          </div>
+          <h5>Rate what you watch</h5>
+          <p>Like, dislike, or rate any movie or series — a single tap is enough to teach us your taste.</p>
+        </div>
+
+        <div class="how-card">
+          <div class="how-step">02</div>
+          <div class="how-icon-wrap">
+            <i class="pi pi-sparkles"></i>
+          </div>
+          <h5>Get smart matches</h5>
+          <p>Our engine blends your history, ratings, and mood to surface tailored suggestions in real time.</p>
+        </div>
+
+        <div class="how-card">
+          <div class="how-step">03</div>
+          <div class="how-icon-wrap">
+            <i class="pi pi-play-circle"></i>
+          </div>
+          <h5>Press play</h5>
+          <p>Every pick comes with a rating, genres, and a short overview — so you spend less time scrolling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== TOP PICKS ==================== -->
+  <section class="section-top-picks">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="section-eyebrow">
+            <i class="pi pi-star-fill"></i> Editor's picks
+          </span>
+          <h2 class="section-title text-lg-start">
+            Handpicked titles, updated weekly
+          </h2>
+          <p class="hero-description">
+            Our curators watch hundreds of hours every week to bring you only the best.
+            No clickbait, no filler — just great cinema and unforgettable series.
+          </p>
+
+          <div class="picks-list">
+            @for (pick of [
+              { title: 'Dune: Part Two',  genre: 'Sci-Fi · 2024',  score: 9.1 },
+              { title: 'Oppenheimer',     genre: 'Drama · 2023',   score: 8.8 },
+              { title: 'The Bear',        genre: 'Series · 2024',  score: 9.0 },
+              { title: 'Poor Things',     genre: 'Fantasy · 2024', score: 8.4 }
+            ]; track pick.title) {
+              <div class="pick-row">
+                <div class="pick-score">{{ pick.score }}</div>
+                <div class="pick-info">
+                  <h6>{{ pick.title }}</h6>
+                  <span>{{ pick.genre }}</span>
+                </div>
+                <i class="pi pi-arrow-right pick-arrow"></i>
+              </div>
+            }
+          </div>
+
+          <button
+            pButton
+            label="See all picks"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            class="hero-btn hero-btn-primary mt-4"
+            [routerLink]="['/recommendation']"
+          ></button>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="picks-visual">
+            <div class="picks-visual-glow"></div>
+            <div class="picks-stack">
+              <div class="pick-card card-back">
+                <i class="pi pi-star-fill"></i>
+              </div>
+              <div class="pick-card card-mid">
+                <i class="pi pi-video"></i>
+              </div>
+              <div class="pick-card card-front">
+                <i class="pi pi-play"></i>
+                <span>Now playing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="section-testimonials">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-eyebrow">
+          <i class="pi pi-comments"></i> Loved by movie fans
+        </span>
+        <h2 class="section-title">Don't take our word for it</h2>
+      </div>
+
+      <div class="row g-4">
+        @for (t of [
+          { name: 'Sarah M.',  role: 'Film enthusiast', quote: 'I stopped scrolling endlessly. Every recommendation actually hits.', avatar: 'S' },
+          { name: 'Karim B.',  role: 'Series addict',   quote: 'The history-based suggestions are scary good. It found my new favorite show in a week.', avatar: 'K' },
+          { name: 'Amélie D.', role: 'Casual watcher',  quote: 'Simple, fast, and it never wastes my time. Exactly what I needed.', avatar: 'A' }
+        ]; track t.name) {
+          <div class="col-lg-4 col-md-6">
+            <div class="testimonial-card h-100">
+              <i class="pi pi-quote-left testimonial-quote"></i>
+              <p class="testimonial-text">{{ t.quote }}</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">{{ t.avatar }}</div>
+                <div>
+                  <h6 class="mb-0">{{ t.name }}</h6>
+                  <span class="testimonial-role">{{ t.role }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== NEWSLETTER CTA ==================== -->
+  <section class="section-cta">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-glow cta-glow-1"></div>
+        <div class="cta-glow cta-glow-2"></div>
+
+        <div class="cta-content">
+          <i class="pi pi-envelope cta-icon"></i>
+          <h2 class="cta-title">Never miss a great movie again</h2>
+          <p class="cta-sub">
+            Get a short weekly digest of your top recommendations — no spam, unsubscribe anytime.
+          </p>
+
+          <div class="cta-form">
+            <i class="pi pi-envelope cta-input-icon"></i>
+            <input
+              type="email"
+              class="cta-input"
+              placeholder="your@email.com"
+              [(ngModel)]="newsletterEmail"
+            >
+            <button
+              pButton
+              class="cta-submit"
+              (click)="subscribeNewsletter()"
+            >
+              Subscribe <i class="pi pi-arrow-right"></i>
+            </button>
+          </div>
+
+          <span class="cta-hint">
+            <i class="pi pi-lock"></i> We respect your inbox. Zero spam guaranteed.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

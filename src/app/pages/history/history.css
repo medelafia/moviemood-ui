@@ -1,0 +1,227 @@
+/* ==================== Page Layout ==================== */
+.history-page {
+    min-height: 95vh;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 400px);
+}
+
+/* ==================== Header ==================== */
+.header-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.5);
+}
+
+.filter-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.filter-icon {
+    position: absolute;
+    left: 14px;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+:host ::ng-deep .filter-select {
+    padding-left: 36px !important;
+    border-radius: 10px !important;
+    border: 1px solid #e5e7eb !important;
+    background: #ffffff !important;
+    min-width: 220px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+:host ::ng-deep .filter-select:hover {
+    border-color: #d1d5db !important;
+}
+
+:host ::ng-deep .filter-select.p-focus {
+    border-color: #f97316 !important;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15) !important;
+}
+
+/* ==================== History Card ==================== */
+.history-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.history-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px -14px rgba(0, 0, 0, 0.15);
+    border-color: #e5e7eb;
+}
+
+/* Left accent strip based on type */
+.accent-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #d1d5db;
+    transition: width 0.25s ease;
+}
+
+.history-card:hover .accent-strip {
+    width: 6px;
+}
+
+.type-review .accent-strip { background: #22c55e; }
+.type-rating .accent-strip { background: #f97316; }
+.type-like   .accent-strip { background: #3b82f6; }
+.type-dislike .accent-strip { background: #ef4444; }
+
+/* ==================== Card Body ==================== */
+.card-body-custom {
+    padding: 20px 22px 18px 26px;
+}
+
+.history-title {
+    font-weight: 700;
+    color: #111827;
+    font-size: 1rem;
+    max-width: 100%;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+/* ==================== Type Avatar (Icon) ==================== */
+.type-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+}
+
+.history-card:hover .type-avatar {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.avatar-review {
+    background: #dcfce7;
+    color: #16a34a;
+}
+.avatar-rating {
+    background: #ffedd5;
+    color: #ea580c;
+}
+.avatar-like {
+    background: #dbeafe;
+    color: #2563eb;
+}
+.avatar-dislike {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* ==================== Type Label ==================== */
+.type-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.label-review  { color: #16a34a; background: #dcfce7; }
+.label-rating  { color: #ea580c; background: #ffedd5; }
+.label-like    { color: #2563eb; background: #dbeafe; }
+.label-dislike { color: #dc2626; background: #fee2e2; }
+
+/* ==================== View Button ==================== */
+.view-btn {
+    flex-shrink: 0;
+    color: #6b7280 !important;
+    transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+    background: #f97316 !important;
+    color: #fff !important;
+    transform: translateX(2px);
+}
+
+/* ==================== Meta Row ==================== */
+.meta-row {
+    padding-top: 14px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.meta-item i {
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+/* ==================== Empty State ==================== */
+.empty-state {
+    background: #fff;
+    border: 2px dashed #e5e7eb;
+    border-radius: 20px;
+    padding: 60px 24px;
+}
+
+.empty-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #9ca3af;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 575.98px) {
+    .filter-wrapper,
+    :host ::ng-deep .filter-select {
+        width: 100%;
+    }
+    
+    .header-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
+    }
+    
+    .card-body-custom {
+        padding: 16px 16px 14px 20px;
+    }
+}

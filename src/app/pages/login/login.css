@@ -1,0 +1,32 @@
+.login-bg-panel {
+    /* Dark cinematic gradient matching the navbar */
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+/* Custom orange button to match the navbar login button */
+.custom-login-btn {
+    background-color: #f97316; /* Tailwind orange-500 */
+    border-color: #f97316;
+    color: white;
+    font-weight: 600;
+}
+
+.custom-login-btn:hover {
+    background-color: #ea580c; /* Tailwind orange-600 */
+    border-color: #ea580c;
+}
+
+.custom-login-btn:disabled {
+    background-color: #fdba74;
+    border-color: #fdba74;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Add a subtle focus ring to the input wrapper */
+.position-relative:focus-within input {
+    box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.25) !important;
+    border-color: #f97316 !important;
+}

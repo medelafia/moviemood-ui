@@ -1,0 +1,289 @@
+<!-- DISCOVER PAGE - MOVIEMOOD -->
+<div class="discover-container">
+
+  <!-- ==================== SEARCH SECTION ==================== -->
+  <div class="search-section">
+    <div class="container">
+      <div class="search-wrapper">
+        <div class="search-input-wrapper">
+          <i class="pi pi-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search movies, series, actors..."
+            [(ngModel)]="searchKey"
+            (keyup.enter)="search()"
+          >
+          @if(searchKey) {
+            <button class="search-clear" (click)="searchKey = ''; search()" type="button">
+              <i class="pi pi-times"></i>
+            </button>
+          }
+        </div>
+        <button class="search-btn" (click)="search()">
+          <i class="pi pi-search me-2"></i>
+          <span>Search</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FILTERS SECTION ==================== -->
+  <div class="filters-section">
+    <div class="container">
+      <div class="filters-card">
+        <div class="filters-wrapper">
+          <!-- Type Filter -->
+          <div class="filter-item">
+            <i class="pi pi-tag filter-icon"></i>
+            <p-select
+              [options]="types"
+              (onChange)="filter($event)"
+              [(ngModel)]="selectedType"
+              optionLabel="name"
+              placeholder="All types"
+              styleClass="type-select"
+            />
+          </div>
+
+          <div class="filters-divider"></div>
+
+          <!-- Action Buttons -->
+          <div class="filters-actions">
+            <button
+              pButton
+              icon="pi pi-filter"
+              (click)="visible = true"
+              class="filter-btn"
+            >
+              <span class="btn-label">Filters</span>
+              @if(selectedGenre.length > 0) {
+                <span class="filter-count">{{ selectedGenre.length }}</span>
+              }
+            </button>
+
+            <button
+              pButton
+              icon="pi pi-undo"
+              (click)="clearAllFilters()"
+              class="clear-btn"
+              [text]="true"
+              label="Clear"
+            ></button>
+          </div>
+        </div>
+
+        <!-- Active Filters -->
+        @if(selectedGenre.length > 0 || rangeValues[0] !== 1900 || rangeValues[1] !== currentYear || minRating > 0) {
+          <div class="active-filters">
+            <span class="active-label"><i class="pi pi-filter-fill me-1"></i>Active:</span>
+
+            @for(genre of selectedGenre; track genre.key) {
+              <span class="filter-chip">
+                {{ genre.name }}
+                <button class="chip-close" (click)="removeGenreFilter(genre)" type="button">
+                  <i class="pi pi-times"></i>
+                </button>
+              </span>
+            }
+
+            @if(rangeValues[0] !== 1900 || rangeValues[1] !== currentYear) {
+              <span class="filter-chip">
+                <i class="pi pi-calendar me-1"></i>
+                {{ rangeValues[0] }} - {{ rangeValues[1] }}
+                <button class="chip-close" (click)="rangeValues = [1900, currentYear]" type="button">
+                  <i class="pi pi-times"></i>
+                </button>
+              </span>
+            }
+
+            @if(minRating > 0) {
+              <span class="filter-chip">
+                <i class="pi pi-star-fill me-1"></i>
+                {{ minRating }}+
+                <button class="chip-close" (click)="minRating = 0" type="button">
+                  <i class="pi pi-times"></i>
+                </button>
+              </span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CONTENT SECTION ==================== -->
+  <div class="content-section">
+    <div class="container">
+
+      <!-- Loading -->
+      @if(isLoading) {
+        <div class="movies-grid">
+          @for(i of [1,2,3,4,5,6,7,8,9,10,11,12]; track i) {
+            <div class="movie-card-skeleton">
+              <app-movie-skeleton></app-movie-skeleton>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Results -->
+      @if(!isLoading && contents.length > 0) {
+        <!-- Results count -->
+        <div class="results-info">
+          <span class="results-count">
+            <strong>{{ contents.length }}</strong> results
+          </span>
+        </div>
+
+        <div class="movies-grid">
+          @for(content of contents; track content.id) {
+            <div class="movie-card" (click)="navigate(content.id)">
+              <div class="poster-container">
+                <img
+                  [ngSrc]="getPosterLink(content.posterLink)"
+                  alt="{{ content.title }}"
+                  width="200"
+                  height="300"
+                  class="poster"
+                  (error)="$event.target.src='assets/images/image.png'"
+                >
+                <div class="rating-badge">
+                  <i class="pi pi-star-fill"></i>
+                  <span>{{ content.externalRating }}</span>
+                </div>
+                <div class="poster-overlay">
+                  <i class="pi pi-play-circle"></i>
+                </div>
+              </div>
+
+              <div class="movie-details">
+                <h4 class="movie-title">{{ content.title }}</h4>
+                <p class="genres-text">{{ constructGenresNames(content.genres) }}</p>
+                <p class="release-year">
+                  <i class="pi pi-calendar"></i>
+                  {{ content.releasedYear || 'N/A' }}
+                </p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="load-more-section">
+          <button
+            pButton
+            label="Load More"
+            icon="pi pi-sync"
+            (click)="incrementSize()"
+            class="load-more-btn"
+          ></button>
+        </div>
+      }
+
+      <!-- Empty -->
+      @if(!isLoading && contents.length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon-wrapper">
+            <i class="pi pi-search"></i>
+          </div>
+          <h5 class="fw-bold mt-3">No results found</h5>
+          <p class="text-muted">We couldn't find anything matching your filters.</p>
+          <button
+            pButton
+            label="Clear All Filters"
+            icon="pi pi-undo"
+            (click)="clearAllFilters()"
+            [outlined]="true"
+          ></button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- ==================== FILTER DRAWER ==================== -->
+  <p-drawer
+    [(visible)]="visible"
+    position="right"
+    header="Refine your search"
+    [modal]="true"
+    styleClass="filter-drawer"
+    [style]="{ width: '420px' }"
+  >
+    <div class="filter-content">
+
+      <!-- Genres -->
+      <div class="filter-group">
+        <h5 class="filter-title">
+          <i class="pi pi-tags me-2"></i>Genres
+        </h5>
+        <div class="genres-container">
+          @for(genre of genres; track genre.key) {
+            <div class="genre-checkbox">
+              <p-checkbox
+                [inputId]="'genre-' + genre.key"
+                [(ngModel)]="selectedGenre"
+                [value]="genre"
+                (onChange)="toggleGenre(genre)"
+              />
+              <label [for]="'genre-' + genre.key">{{ genre.name }}</label>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Year Range -->
+      <div class="filter-group">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="filter-title">
+            <i class="pi pi-calendar me-2"></i>Release Year
+          </h5>
+          <span class="range-display">{{ rangeValues[0] }} — {{ rangeValues[1] }}</span>
+        </div>
+        <p-slider
+          [(ngModel)]="rangeValues"
+          [range]="true"
+          [min]="1900"
+          [max]="currentYear"
+          styleClass="filter-slider"
+        />
+      </div>
+
+      <!-- Rating -->
+      <div class="filter-group">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="filter-title">
+            <i class="pi pi-star-fill me-2"></i>Minimum Rating
+          </h5>
+          <span class="range-display">
+            <i class="pi pi-star-fill text-warning me-1"></i>{{ minRating }}/10
+          </span>
+        </div>
+        <p-slider
+          [(ngModel)]="minRating"
+          [min]="0"
+          [max]="10"
+          [step]="0.5"
+          styleClass="filter-slider"
+        />
+      </div>
+
+      <!-- Sticky actions -->
+      <div class="filter-actions">
+        <button
+          pButton
+          label="Reset"
+          (click)="resetFilters()"
+          class="reset-btn"
+          [outlined]="true"
+        ></button>
+        <button
+          pButton
+          label="Apply Filters"
+          icon="pi pi-check"
+          (click)="applyFilters()"
+          class="apply-btn"
+        ></button>
+      </div>
+    </div>
+  </p-drawer>
+</div>

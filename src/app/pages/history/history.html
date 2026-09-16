@@ -1,0 +1,124 @@
+<div class="history-page py-5">
+    <div class="container">
+
+        <!-- ==================== PAGE HEADER ==================== -->
+        <div class="page-header d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="header-icon">
+                    <i class="pi pi-history"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0">Your History</h2>
+                    <p class="text-muted small mb-0">
+                        <i class="pi pi-sparkles me-1"></i>
+                        {{ filtredHistories?.length || 0 }} 
+                        {{ (filtredHistories?.length === 1) ? 'activity' : 'activities' }} found
+                    </p>
+                </div>
+            </div>
+
+            <!-- Filter -->
+            <div class="filter-wrapper">
+                <i class="pi pi-filter filter-icon"></i>
+                <p-select 
+                    [options]="types" 
+                    (onChange)="filter($event)" 
+                    [(ngModel)]="selectedType" 
+                    optionLabel="name" 
+                    placeholder="Filter by type" 
+                    styleClass="filter-select"
+                />
+            </div>
+        </div>
+
+        <!-- ==================== HISTORY LIST ==================== -->
+        @if(loading) {
+        <div class="row g-3">
+            <div class="col-md-6">
+                <app-history-skeleton></app-history-skeleton>
+            </div>
+            <div class="col-md-6">
+                <app-history-skeleton></app-history-skeleton>
+            </div>
+        </div>
+        } @else {
+        <div class="row g-3">
+            @if(filtredHistories?.length == 0) { 
+                <div class="col-12">
+                    <div class="empty-state text-center">
+                        <div class="empty-icon-wrapper">
+                            <i class="pi pi-inbox"></i>
+                        </div>
+                        <h5 class="fw-bold mt-3">No history yet</h5>
+                        <p class="text-muted mb-0">
+                            Your reviews, ratings and reactions will appear here.
+                        </p>
+                    </div>
+                </div>
+            } @else { 
+                @for(history of filtredHistories; track (history.contentTitle + history.historyType)) {
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="history-card h-100" [ngClass]="'type-' + history?.historyType?.toLowerCase()">
+                            
+                            <!-- Left accent strip -->
+                            <div class="accent-strip"></div>
+
+                            <div class="card-body-custom">
+                                
+                                <!-- Header: title + icon avatar -->
+                                <div class="d-flex align-items-start justify-content-between mb-3">
+                                    <div class="d-flex align-items-center gap-3 flex-grow-1 min-w-0">
+                                        <div class="type-avatar" [ngClass]="'avatar-' + history?.historyType?.toLowerCase()">
+                                            @if(history?.historyType == 'REVIEW') {
+                                                <i class="pi pi-pen-to-square"></i>
+                                            } @else if(history?.historyType == 'RATING') { 
+                                                <i class="pi pi-star-fill"></i>
+                                            } @else if(history?.historyType == 'LIKE') { 
+                                                <i class="pi pi-thumbs-up-fill"></i>
+                                            } @else { 
+                                                <i class="pi pi-thumbs-down-fill"></i>
+                                            }
+                                        </div>
+                                        <div class="min-w-0">
+                                            <h6 class="history-title mb-1 text-truncate">
+                                                {{ history?.contentTitle }}
+                                            </h6>
+                                            <span class="type-label" [ngClass]="'label-' + history?.historyType?.toLowerCase()">
+                                                {{ history?.historyType | titlecase }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <button 
+                                        [routerLink]="['/', history.contentId, 'details']" 
+                                        pButton 
+                                        severity="secondary" 
+                                        icon="pi pi-arrow-right" 
+                                        [rounded]="true"
+                                        [text]="true"
+                                        pTooltip="View details"
+                                        tooltipPosition="left"
+                                        class="view-btn"
+                                    ></button>
+                                </div>
+
+                                <!-- Meta: date + time -->
+                                <div class="meta-row d-flex flex-wrap align-items-center gap-3">
+                                    <div class="meta-item">
+                                        <i class="pi pi-calendar"></i>
+                                        <span>{{ formatDate(history?.date) }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="pi pi-clock"></i>
+                                        <span>{{ history?.time }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        }
+    </div>
+</div>

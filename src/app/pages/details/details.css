@@ -1,0 +1,173 @@
+/* ==================== Page Container ==================== */
+.content-page {
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 400px);
+    min-height: 100vh;
+}
+
+/* ==================== Poster ==================== */
+.poster-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poster-wrapper:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 50px -12px rgba(0, 0, 0, 0.45);
+}
+
+.poster-img {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+    object-fit: cover;
+    aspect-ratio: 2 / 3;
+    background-color: #e9ecef;
+}
+
+/* ==================== Meta Bar ==================== */
+.meta-bar {
+    padding: 14px 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #eef0f2;
+}
+
+.meta-bar .divider {
+    width: 1px;
+    height: 18px;
+    background: #dee2e6;
+}
+
+.letter-spacing {
+    letter-spacing: 0.08em;
+}
+
+/* ==================== Cast Chips ==================== */
+:host ::ng-deep .cast-chip {
+    background: #fff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #374151 !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+:host ::ng-deep .cast-chip:hover {
+    border-color: #f97316 !important;
+    color: #f97316 !important;
+    transform: translateY(-1px);
+}
+
+/* ==================== Review Cards ==================== */
+.review-card {
+    background: #fff;
+    border: 1px solid #eef0f2;
+    border-radius: 16px;
+    padding: 22px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.review-card:hover {
+    border-color: #f97316;
+    box-shadow: 0 12px 28px -10px rgba(249, 115, 22, 0.2);
+    transform: translateY(-3px);
+}
+
+.review-content {
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.avatar-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px -2px rgba(249, 115, 22, 0.4);
+}
+
+/* ==================== Empty State ==================== */
+.empty-state {
+    background: #fff;
+    border: 2px dashed #e5e7eb;
+    border-radius: 16px;
+    padding: 40px 20px;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    color: #d1d5db;
+}
+
+/* ==================== Modals ==================== */
+:host ::ng-deep .modal-content {
+    border-radius: 18px !important;
+}
+
+.review-textarea {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 14px;
+    resize: vertical;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-textarea:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+    outline: none;
+}
+
+/* Success Circle inside Modals */
+.success-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==================== PrimeNG Rating Centering ==================== */
+:host ::ng-deep .p-rating {
+    display: inline-flex;
+    gap: 4px;
+}
+
+:host ::ng-deep .p-rating-item {
+    cursor: pointer;
+}
+
+/* ==================== Responsive ==================== */
+@media (max-width: 767.98px) {
+    .poster-wrapper {
+        max-width: 280px;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .display-5 {
+        font-size: 1.75rem;
+    }
+}

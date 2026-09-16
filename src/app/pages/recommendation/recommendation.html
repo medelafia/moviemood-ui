@@ -1,0 +1,191 @@
+<div class="recommendations-page py-5">
+    <div class="container">
+
+        <!-- ==================== HERO HEADER ==================== -->
+        <div class="hero-header mb-5">
+            <div class="d-flex align-items-center gap-3">
+                <div class="hero-icon">
+                    <i class="pi pi-sparkles"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold text-capitalize mb-0">Recommended for you</h2>
+                    <p class="text-muted small mb-0">
+                        Curated picks based on your taste, ratings and history
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== MOVIES SECTION ==================== -->
+        <section class="mb-5">
+            <div class="section-header d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="pi pi-video section-icon"></i>
+                    <div>
+                        <h4 class="fw-bold mb-1">Recommended movies</h4>
+                        <div class="section-underline"></div>
+                    </div>
+                </div>
+
+                <div class="count-control">
+                    <label for="countMovies" class="count-label">
+                        <i class="pi pi-sliders-h me-1"></i> Items
+                    </label>
+                    <p-inputnumber 
+                        (onBlur)="onMoviesCountChange($event)" 
+                        [(ngModel)]="countMovies" 
+                        inputId="countMovies" 
+                        mode="decimal" 
+                        [min]="10" 
+                        [max]="30" 
+                        [showButtons]="true"
+                        buttonLayout="horizontal"
+                        spinnerMode="horizontal"
+                        [inputStyle]="{'width': '50px', 'text-align': 'center'}"
+                    />
+                </div>
+            </div>
+
+            <div class="row g-3">
+                @if(loadingMovies) { 
+                    @for(i of [1,2,3,4,5,6]; track i) {
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                            <app-movie-skeleton></app-movie-skeleton>
+                        </div>
+                    }
+                } @else { 
+                    @if(movies?.length == 0) { 
+                        <div class="col-12">
+                            <div class="empty-state text-center">
+                                <div class="empty-icon-wrapper">
+                                    <i class="pi pi-video"></i>
+                                </div>
+                                <h5 class="fw-bold mt-3">No movies found</h5>
+                                <p class="text-muted mb-0">
+                                    Try increasing the number of items or rate more movies.
+                                </p>
+                            </div>
+                        </div>
+                    } @else { 
+                        @for(movie of movies; track movie.id){
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                                <div (click)="navigate(movie.id)" class="content-card">
+                                    <div class="poster-wrapper">
+                                        <img 
+                                            class="poster-img" 
+                                            ngSrc="{{movie.posterLink}}" 
+                                            alt="{{movie.title}}" 
+                                            width="200" 
+                                            height="300"
+                                            (error)="$event.target.src='assets/images/image.png'"
+                                        >
+                                        <!-- Rating Badge -->
+                                        <div class="rating-badge">
+                                            <i class="pi pi-star-fill"></i>
+                                            <span>{{movie?.externalRating}}</span>
+                                        </div>
+                                        <!-- Hover Overlay -->
+                                        <div class="poster-overlay">
+                                            <i class="pi pi-play-circle"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-info">
+                                        <h6 class="card-title">{{movie.title}}</h6>
+                                        <p class="card-genres">{{constructGenresNames(movie.genres)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </section>
+
+        <!-- ==================== SERIES SECTION ==================== -->
+        <section>
+            <div class="section-header d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="pi pi-desktop section-icon"></i>
+                    <div>
+                        <h4 class="fw-bold mb-1">Recommended series</h4>
+                        <div class="section-underline"></div>
+                    </div>
+                </div>
+
+                <div class="count-control">
+                    <label for="countSeries" class="count-label">
+                        <i class="pi pi-sliders-h me-1"></i> Items
+                    </label>
+                    <p-inputnumber 
+                        (onBlur)="onSeriesCountChange($event)" 
+                        [(ngModel)]="countSeries" 
+                        inputId="countSeries" 
+                        mode="decimal" 
+                        [min]="10" 
+                        [max]="30" 
+                        [showButtons]="true"
+                        buttonLayout="horizontal"
+                        spinnerMode="horizontal"
+                        [inputStyle]="{'width': '50px', 'text-align': 'center'}"
+                    />
+                </div>
+            </div>
+
+            <div class="row g-3">
+                @if(loadingSeries) { 
+                    @for(i of [1,2,3,4,5,6]; track i) {
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                            <app-movie-skeleton></app-movie-skeleton>
+                        </div>
+                    }
+                } @else { 
+                    @if(series?.length == 0) { 
+                        <div class="col-12">
+                            <div class="empty-state text-center">
+                                <div class="empty-icon-wrapper">
+                                    <i class="pi pi-desktop"></i>
+                                </div>
+                                <h5 class="fw-bold mt-3">No series found</h5>
+                                <p class="text-muted mb-0">
+                                    Try increasing the number of items or rate more series.
+                                </p>
+                            </div>
+                        </div>
+                    } @else {
+                        @for(serie of series; track serie.id){
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
+                                <div (click)="navigate(serie.id)" class="content-card">
+                                    <div class="poster-wrapper">
+                                        <img 
+                                            class="poster-img" 
+                                            ngSrc="{{serie.posterLink}}" 
+                                            alt="{{serie.title}}" 
+                                            width="200" 
+                                            height="300"
+                                            (error)="$event.target.src='assets/images/image.png'"
+                                        >
+                                        <!-- Rating Badge -->
+                                        <div class="rating-badge">
+                                            <i class="pi pi-star-fill"></i>
+                                            <span>{{serie?.externalRating}}</span>
+                                        </div>
+                                        <!-- Hover Overlay -->
+                                        <div class="poster-overlay">
+                                            <i class="pi pi-play-circle"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-info">
+                                        <h6 class="card-title">{{serie.title}}</h6>
+                                        <p class="card-genres">{{constructGenresNames(serie.genres)}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </section>
+    </div>
+</div>

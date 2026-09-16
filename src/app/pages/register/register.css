@@ -1,0 +1,78 @@
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    opacity: 0.3;
+    pointer-events: none;
+    animation: float 8s ease-in-out infinite;
+}
+.shape-1 {
+    width: 450px;
+    height: 450px;
+    background: #f97316; /* Orange */
+    top: -150px;
+    left: -150px;
+    animation-delay: 0s;
+}
+.shape-2 {
+    width: 350px;
+    height: 350px;
+    background: #4f46e5; /* Indigo */
+    bottom: -100px;
+    right: -100px;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+    100% { transform: translateY(0px) scale(1); }
+}
+
+/* --- Card Polish --- */
+.custom-card {
+    border-top: 5px solid #f97316 !important; /* Orange accent */
+}
+
+/* --- Button Styling --- */
+.custom-login-btn {
+    background-color: #f97316;
+    border-color: #f97316;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.custom-login-btn:hover:not(:disabled) {
+    background-color: #ea580c;
+    border-color: #ea580c;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.4) !important;
+}
+
+.custom-login-btn:disabled {
+    background-color: #fdba74;
+    border-color: #fdba74;
+}
+
+/* --- PrimeNG Input Focus Ring --- */
+.p-floatlabel:focus-within label {
+    color: #f97316 !important;
+}
+
+/* --- PrimeNG Password Customization --- */
+:host ::ng-deep .p-password input {
+    width: 100%;
+}
+:host ::ng-deep .p-password .p-password-toggle-mask-icon {
+    color: #6c757d;
+}
+
+/* --- Icon Pulse Animation --- */
+.icon-pulse {
+    transition: transform 0.3s ease;
+}
+.icon-pulse:hover {
+    transform: scale(1.1);
+}

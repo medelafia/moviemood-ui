@@ -1,0 +1,299 @@
+<div class="content-page">
+    <div class="container py-5">
+        
+        <!-- ==================== HERO SECTION ==================== -->
+        <div class="row g-5 align-items-start">
+            <!-- Poster Column -->
+            <div class="col-lg-4 col-md-5">
+                <div class="poster-wrapper">
+                    <img 
+                        src="{{content?.posterLink}}" 
+                        alt="{{content?.title}}" 
+                        class="poster-img"
+                        (error)="$event.target.src='assets/images/image.png'"
+                    >
+                </div>
+            </div>
+
+            <!-- Details Column -->
+            <div class="col-lg-8 col-md-7">
+                
+                <!-- Title + Actions -->
+                <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-2">
+                    <div>
+                        <h1 class="display-5 fw-bold mb-1">
+                            {{content?.title}}
+                            <span class="text-muted fw-normal fs-4">({{content?.releasedYear}})</span>
+                        </h1>
+                    </div>
+
+                    <!-- Action Toolbar -->
+                    <div class="action-toolbar d-flex align-items-center gap-2">
+                        @if(!interactions.disliked) {
+                            <button 
+                                (click)="reactToContent(ReactionType.LIKE)" 
+                                pButton 
+                                icon="pi pi-thumbs-up" 
+                                severity="help" 
+                                [rounded]="true" 
+                                [outlined]="interactions.liked" 
+                                [disabled]="interactions.liked"
+                                pTooltip="Like"
+                                tooltipPosition="top"
+                            ></button>
+                        }
+                        @if(!interactions.liked) {
+                            <button 
+                                (click)="reactToContent(ReactionType.DISLIKE)" 
+                                pButton 
+                                icon="pi pi-thumbs-down" 
+                                severity="danger" 
+                                [rounded]="true" 
+                                [outlined]="interactions.disliked" 
+                                [disabled]="interactions.disliked"
+                                pTooltip="Dislike"
+                                tooltipPosition="top"
+                            ></button>
+                        }
+                        <button 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#ratingModal" 
+                            pButton 
+                            icon="pi pi-star" 
+                            severity="info" 
+                            [rounded]="true" 
+                            [outlined]="interactions.rated"
+                            pTooltip="Rate"
+                            tooltipPosition="top"
+                        ></button>
+                    </div>
+                </div>
+
+                <!-- Meta Info Bar -->
+                <div class="meta-bar d-flex flex-wrap align-items-center gap-3 mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="pi pi-star-fill text-warning me-2"></i>
+                        <span class="fw-semibold">{{content?.externalRating}}</span>
+                        <span class="text-muted ms-2 small">({{content?.voteCount}} votes)</span>
+                    </div>
+                    <span class="divider"></span>
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="pi pi-clock me-2"></i>
+                        <span>{{getRuntime(content)}} min</span>
+                    </div>
+                    <span class="divider"></span>
+                    <div class="d-flex align-items-center text-muted text-capitalize">
+                        <i class="pi pi-tags me-2"></i>
+                        <span>{{constructGenresNames(content?.genres)}}</span>
+                    </div>
+                    <span class="divider"></span>
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="pi pi-calendar me-2"></i>
+                        <span>{{content?.releasedYear}}</span>
+                    </div>
+                </div>
+
+                <!-- Certification -->
+                <div class="mb-4">
+                    <p-tag severity="warn" value="{{content?.certification}}" icon="pi pi-verified" />
+                </div>
+
+                <!-- Overview -->
+                <div class="mb-4">
+                    <h6 class="text-uppercase text-muted fw-bold small mb-2 letter-spacing">Overview</h6>
+                    <p class="lead fs-6 text-body lh-lg">{{ content?.overview }}</p>
+                </div>
+
+                <!-- Actors -->
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted fw-bold small mb-3 letter-spacing">
+                        <i class="pi pi-users me-2"></i>Cast
+                    </h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        @for(actor of content?.actors; track actor.name) {
+                            <p-chip 
+                                label="{{actor.name}}" 
+                                styleClass="cast-chip"
+                                icon="pi pi-user"
+                            />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== REVIEWS SECTION ==================== -->
+        <div class="mt-5 pt-4 border-top">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div>
+                    <h3 class="fw-bold mb-1">Reviews</h3>
+                    <p class="text-muted small mb-0">
+                        {{reviews.length}} {{reviews.length === 1 ? 'review' : 'reviews'}} from the community
+                    </p>
+                </div>
+                <button 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#reviewModal" 
+                    pButton 
+                    icon="pi pi-pen-to-square" 
+                    severity="warn" 
+                    label="Write a review"
+                    class="d-none d-sm-inline-flex"
+                ></button>
+                <button 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#reviewModal" 
+                    pButton 
+                    icon="pi pi-pen-to-square" 
+                    severity="warn" 
+                    [rounded]="true"
+                    class="d-inline-flex d-sm-none"
+                ></button>
+            </div>
+
+            <div class="row g-4">
+                @if(reviewsLoading) {
+                    <div class="col-12 my-5 d-flex align-items-center justify-content-center">
+                        <p-progress-spinner strokeWidth="6" fill="transparent" animationDuration=".5s" [style]="{ width: '60px', height: '60px' }" />
+                    </div>
+                } @else {
+                    @if(reviews.length == 0) {
+                        <div class="col-12">
+                            <div class="empty-state text-center py-5">
+                                <i class="pi pi-comments empty-icon"></i>
+                                <h5 class="mt-3 fw-bold">No reviews yet</h5>
+                                <p class="text-muted mb-4">Be the first to share your thoughts about this title.</p>
+                                <button 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#reviewModal" 
+                                    pButton 
+                                    icon="pi pi-pen-to-square" 
+                                    severity="warn" 
+                                    label="Write the first review"
+                                ></button>
+                            </div>
+                        </div>
+                    } @else {
+                        @for(review of reviews; track review.id) {
+                            <div class="col-lg-4 col-md-6">
+                                <div class="review-card h-100">
+                                    <div class="d-flex align-items-start justify-content-between mb-3">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle">
+                                                {{review?.user?.username?.charAt(0)?.toUpperCase()}}
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 fw-bold">@{{review?.user?.username}}</h6>
+                                                <small class="text-muted">{{review.date.toString().split('T')[0]}}</small>
+                                            </div>
+                                        </div>
+                                        @if(review?.positive) {
+                                            <p-tag severity="success" value="Positive" icon="pi pi-thumbs-up" />
+                                        } @else {
+                                            <p-tag severity="danger" value="Negative" icon="pi pi-thumbs-down" />
+                                        }
+                                    </div>
+                                    <p class="mb-0 text-body review-content">{{review.reviewContent}}</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== REVIEW MODAL ==================== -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="pi pi-pen-to-square text-warning fs-4"></i>
+                    <h5 class="modal-title fw-bold" id="reviewModalLabel">Write your review</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-3">
+                @if(!interactions.reviewed){
+                    @if(savingReview) {
+                        <div class="my-5 d-flex align-items-center justify-content-center">
+                            <p-progress-spinner strokeWidth="6" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+                        </div>
+                    } @else {
+                        <label for="reviewInput" class="form-label text-muted small fw-semibold">Your Review</label>
+                        <textarea 
+                            id="reviewInput"
+                            class="form-control review-textarea" 
+                            placeholder="Share your thoughts about this movie..." 
+                            rows="5"
+                            [(ngModel)]="reviewModel"
+                        ></textarea>
+                        <div class="d-flex align-items-center justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                            <button (click)="writeReview()" icon="pi pi-save" pButton severity="warn" label="Save Review"></button>
+                        </div>
+                    }
+                } @else {
+                    <div class="py-5 d-flex align-items-center justify-content-center flex-column text-success">
+                        <div class="success-circle">
+                            <i class="pi pi-check"></i>
+                        </div>
+                        <div class="mt-3 fw-bold fs-5">Review posted!</div>
+                        <p class="text-muted small mb-0">Thank you for your feedback.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==================== RATING MODAL ==================== -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="pi pi-star-fill text-info fs-4"></i>
+                    <h5 class="modal-title fw-bold" id="ratingModalLabel">Rate this content</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-3">
+                @if(!interactions.rated){
+                    @if(savingRating) {
+                        <div class="my-5 d-flex align-items-center justify-content-center">
+                            <p-progress-spinner strokeWidth="6" fill="transparent" animationDuration=".5s" [style]="{ width: '50px', height: '50px' }" />
+                        </div>
+                    } @else {
+                        <div class="text-center py-3">
+                            <h6 class="text-muted mb-3">How would you rate this on a scale of 1-10?</h6>
+                            <p-rating 
+                                [(ngModel)]="ratingModel" 
+                                [iconOnStyle]="{'color': '#f97316'}" 
+                                [stars]="10"
+                                styleClass="justify-content-center"
+                            />
+                            <div class="text-muted small mt-3">Selected: <strong>{{ratingModel}}</strong> / 10</div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                            <button (click)="rateContent()" icon="pi pi-save" pButton severity="warn" label="Submit Rating"></button>
+                        </div>
+                    }
+                } @else {
+                    <div class="py-5 d-flex align-items-center justify-content-center flex-column text-success">
+                        <div class="success-circle">
+                            <i class="pi pi-check"></i>
+                        </div>
+                        <div class="mt-3 fw-bold fs-5">Content rated!</div>
+                        <p class="text-muted small mb-0">Thanks for rating.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
